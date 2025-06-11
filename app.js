@@ -721,34 +721,21 @@ function setupEventListeners() {
 
 // 🎯 FIXED: Initialize workspace collaboration with proper Supabase client creation
 async function initializeWorkspaceCollaboration() {
-    if (window.workspaceCollaboration) {
-        console.log('🔄 Initializing workspace collaboration...');
-        
-        // Create and store the Supabase client properly
-        try {
-            if (window.supabase && typeof window.supabase.createClient === 'function') {
-                // Create the Supabase client with credentials
-                const supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_SERVICE_KEY);
-                
-                // Store it in the workspace collaboration object
-                window.workspaceCollaboration.supabase = supabaseClient;
-                
-                console.log('✅ Supabase client created and stored successfully');
-                console.log('✅ Workspace collaboration system ready');
-                
-                return true;
-            } else {
-                console.error('❌ Supabase library not available');
-                return false;
-            }
-        } catch (error) {
-            console.error('❌ Failed to initialize Supabase client:', error);
-            return false;
+    console.log('🔄 Initializing workspace collaboration...');
+    
+    // Wait for workspace collaboration system to be ready
+    let attempts = 0;
+    while (attempts < 30) {
+        if (window.workspaceCollaboration) {
+            console.log('✅ Workspace collaboration system ready');
+            return true;
         }
-    } else {
-        console.error('❌ Workspace collaboration object not found');
-        return false;
+        await new Promise(resolve => setTimeout(resolve, 100));
+        attempts++;
     }
+    
+    console.error('❌ Workspace collaboration system not available');
+    return false;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -797,7 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDataSummary();        // Direct call to ui.js function
     updateUploadAreaState();    // Direct call to ui.js function
     
-    // 🎯 FIXED: Initialize workspace collaboration with proper client creation
+    // Initialize workspace collaboration
     initializeWorkspaceCollaboration();
     
     // Cleanup on page unload
