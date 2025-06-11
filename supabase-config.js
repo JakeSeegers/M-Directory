@@ -16,6 +16,37 @@ const collaborationState = {
     activeChannel: null
 };
 
+// Initialize workspace collaboration system
+async function initializeWorkspaceSystem() {
+    try {
+        console.log('🔄 Initializing workspace system...');
+        
+        // Initialize Supabase
+        const supabaseInitialized = await initializeSupabase();
+        if (!supabaseInitialized) {
+            throw new Error('Failed to initialize Supabase');
+        }
+        
+        // Create workspace collaboration object
+        window.workspaceCollaboration = {
+            collaborationState,
+            supabase: supabaseClient,
+            createWorkspace,
+            joinWorkspace,
+            leaveWorkspace,
+            saveTagToWorkspace,
+            removeTagFromWorkspace,
+            syncWorkspaceTags
+        };
+        
+        console.log('✅ Workspace system initialized');
+        return true;
+    } catch (error) {
+        console.error('❌ Failed to initialize workspace system:', error);
+        return false;
+    }
+}
+
 // Initialize Supabase
 async function initializeSupabase() {
     try {
@@ -436,14 +467,7 @@ function sanitizeHTML(text) {
     return temp.innerHTML;
 }
 
-// Export functions
-window.workspaceCollaboration = {
-    initializeSupabase,
-    createWorkspace,
-    joinWorkspace,
-    saveTagToWorkspace,
-    removeTagFromWorkspace,
-    syncWorkspaceTags,  // ← THIS WAS MISSING BEFORE!
-    leaveWorkspace,
-    collaborationState
-};
+// Initialize the workspace system when the script loads
+document.addEventListener('DOMContentLoaded', () => {
+    initializeWorkspaceSystem();
+});
