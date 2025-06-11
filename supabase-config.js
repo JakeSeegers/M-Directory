@@ -2,8 +2,8 @@
 // Replace your existing supabase-config.js with this workspace approach
 
 // Supabase configuration
-const SUPABASE_URL = 'https://pzcqsorfobygydxkdmzc.supabase.co';
-const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB6Y3Fzb3Jmb2J5Z3lkeGtkbXpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTA0NTY1NiwiZXhwIjoyMDY0NjIxNjU2fQ.QLyhYgHbshBHYtrun8G6w4m1dRQvFaw3QfdZnLDePhA';
+window.SUPABASE_URL = 'https://pzcqsorfobygydxkdmzc.supabase.co';
+window.SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB6Y3Fzb3Jmb2J5Z3lkeGtkbXpjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0OTA0NTY1NiwiZXhwIjoyMDY0NjIxNjU2fQ.QLyhYgHbshBHYtrun8G6w4m1dRQvFaw3QfdZnLDePhA';
 
 let supabaseClient = null;
 
@@ -25,7 +25,7 @@ async function initializeSupabase() {
         let attempts = 0;
         while (attempts < 30) {
             if (window.supabase && typeof window.supabase.createClient === 'function') {
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+                supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_SERVICE_KEY);
                 console.log('✅ Supabase initialized');
                 return true;
             }
