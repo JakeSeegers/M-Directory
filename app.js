@@ -728,7 +728,7 @@ async function initializeWorkspaceCollaboration() {
         try {
             if (window.supabase && typeof window.supabase.createClient === 'function') {
                 // Create the Supabase client with credentials
-                const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
+                const supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_SERVICE_KEY);
                 
                 // Store it in the workspace collaboration object
                 window.workspaceCollaboration.supabase = supabaseClient;
